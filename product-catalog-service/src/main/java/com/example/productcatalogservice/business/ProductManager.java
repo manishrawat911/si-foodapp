@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Null;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -23,18 +24,20 @@ public class ProductManager implements IProductService {
     }
 
     @Override
-    public Product getProduct(GetProductRequest request)
+    public Product getProduct(Long request)
     {
-        if (!Objects.isNull(request.getItemId()))
+        Product product = catalogueRepository.findByProductId(request);
+        if (!product.getProductName().isEmpty())
         {
-            return catalogueRepository.findByProductId(request.getItemId());
+            return catalogueRepository.findByProductId(request);
         }
         return null;
     }
 
     @Override
-    public Product getProducts() {
-        return null;
+    public List<Product> getProducts()
+    {
+        return catalogueRepository.findAll();
     }
 
     public Product addProduct(AddProductRequest addProductRequest)

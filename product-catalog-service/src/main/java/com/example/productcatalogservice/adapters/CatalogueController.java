@@ -8,6 +8,8 @@ import com.example.productcatalogservice.dto.GetProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/v1", produces = "application/json")
 
@@ -22,10 +24,14 @@ public class CatalogueController {
         this.productManager = productManager;
     }
 
+    @GetMapping(ENDPOINT)
+    public List<Product> findAll() {
+        return productManager.getProducts();
+    }
     @GetMapping(ENDPOINT+"/{id}")
-    public Product get(@PathVariable GetProductRequest getProductRequest)
+    public Product getProduct(@PathVariable Long productId)
     {
-        return productManager.getProduct(getProductRequest);
+        return productManager.getProduct(productId);
     }
 
     @PostMapping(ENDPOINT)
