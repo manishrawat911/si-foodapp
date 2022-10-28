@@ -1,7 +1,7 @@
-package com.example.productcatalogservice.dto;
+package com.example.productcatalogservice.ports;
 
 import com.example.productcatalogservice.business.entites.Product;
-import com.example.productcatalogservice.ports.GetProductRequest;
+import com.example.productcatalogservice.dto.GetProductRequest;
 
 public interface IProductService {
 

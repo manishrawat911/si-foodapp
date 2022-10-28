@@ -1,8 +1,8 @@
 package com.example.productcatalogservice.business;
 
 import com.example.productcatalogservice.business.entites.Product;
-import com.example.productcatalogservice.dto.IProductService;
-import com.example.productcatalogservice.ports.GetProductRequest;
+import com.example.productcatalogservice.ports.IProductService;
+import com.example.productcatalogservice.dto.GetProductRequest;
 
 public class ProductManager implements IProductService {
     @Override
