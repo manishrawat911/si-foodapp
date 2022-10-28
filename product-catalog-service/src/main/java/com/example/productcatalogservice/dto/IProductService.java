@@ -7,5 +7,7 @@ public interface IProductService {
 
     Product getProduct(GetProductRequest request);
     Product getProducts();
+    boolean addProduct(String productName, String productDescription, Float price);
+    boolean removeProduct(Long productId);
 //    Product getProduct();
 }

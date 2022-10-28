@@ -15,5 +15,16 @@ public class ProductManager implements IProductService {
         return null;
     }
 
+    public boolean addProduct(String productName, String productDescription, Float price)
+    {
+        Product product = new Product();
+        return true;
+    }
+
+    public boolean removeProduct(Long productId)
+    {
+        return true;
+    }
+
 //    public void addProduct()
 }
