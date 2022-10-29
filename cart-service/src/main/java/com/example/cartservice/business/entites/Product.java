@@ -1,10 +1,14 @@
 package com.example.cartservice.business.entites;
 
-public class Product {
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-    String productId;
-    String productName;
-    String providerName;
-    String providerId;
-    public Float price;
+public class Product {
+    private @Id
+    @GeneratedValue Long productId;
+   //String productId;
+    //String productName;
+    //String providerName;
+    //String providerId;
+    //public Float price;
 }
