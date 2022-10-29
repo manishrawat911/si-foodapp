@@ -1,14 +1,11 @@
 package com.example.walletservice.business.entites;
 
 import lombok.*;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import java.util.Random;
 
 @Entity
 @NoArgsConstructor @AllArgsConstructor

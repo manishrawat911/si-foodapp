@@ -1,4 +1,4 @@
-package com.example.walletservice.business.entites;
+package com.example.walletservice.business;
 
 import com.example.walletservice.dto.CreateWalletRequest;
 import com.example.walletservice.dto.CreateWalletResponse;
