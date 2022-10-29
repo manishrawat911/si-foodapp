@@ -1,5 +1,6 @@
 package com.example.walletservice.business;
 
+import com.example.walletservice.business.entites.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

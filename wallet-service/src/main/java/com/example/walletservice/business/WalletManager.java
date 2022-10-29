@@ -1,5 +1,6 @@
 package com.example.walletservice.business;
 
+import com.example.walletservice.business.entites.Wallet;
 import com.example.walletservice.dto.CreateWalletRequest;
 import com.example.walletservice.dto.CreateWalletResponse;
 import com.example.walletservice.dto.CreditUserWalletCommand;
@@ -29,13 +30,13 @@ public class WalletManager implements WalletManagement {
         }
 
         Wallet newWallet = new Wallet();
-        newWallet.userId = req.userId;
-        newWallet.mmdPoints = 0.0f;
+        newWallet.setUserId(req.userId);
+//        newWallet.mmdPoints = 0.0f;
         Wallet saved = repository.save(newWallet);
 
         return  CreateWalletResponse.builder()
                 .message("Created")
-                .walletId(repository.searchByUserId(req.userId).id).build();
+                .walletId(repository.searchByUserId(req.userId).getUserId()).build();
     }
 
 //    @Override
@@ -49,7 +50,7 @@ public class WalletManager implements WalletManagement {
     public boolean debitWalletForUser(DebitUserWalletCommand command) {
         Wallet userWallet = getUserWallet(command.id);
         if(userWallet.getMmdPoints()> command.amount){
-            repository.updateMddPontsForUser(userWallet.mmdPoints - command.amount, userWallet.userId );
+            repository.updateMddPontsForUser(userWallet.getMmdPoints() - command.amount, userWallet.getUserId() );
             return true;
         }
         return false;
@@ -67,7 +68,7 @@ public class WalletManager implements WalletManagement {
     public boolean creditWalletForUser(CreditUserWalletCommand command) {
 //        Wallet userWallet = repository.searchByUserId(command.id);
         Wallet userWallet = getUserWallet(command.id);
-        repository.updateMddPontsForUser(userWallet.mmdPoints + command.value, userWallet.userId);
+        repository.updateMddPontsForUser(userWallet.getMmdPoints() + command.value, userWallet.getUserId());
         return true;
     }
 
