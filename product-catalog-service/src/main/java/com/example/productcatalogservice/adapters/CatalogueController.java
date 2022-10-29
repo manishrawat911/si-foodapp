@@ -4,7 +4,6 @@ import com.example.productcatalogservice.business.ProductManager;
 import com.example.productcatalogservice.business.entites.Product;
 import com.example.productcatalogservice.dto.AddProductRequest;
 import com.example.productcatalogservice.dto.DeleteProductRequest;
-import com.example.productcatalogservice.dto.GetProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class CatalogueController {
 
-    private static final String ENDPOINT="/catalogue";
+    private static final String ENDPOINT="/catalogue/";
     private final ProductManager productManager;
 
     @Autowired
