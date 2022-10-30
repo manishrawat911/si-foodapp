@@ -1,11 +1,24 @@
 package com.example.cartservice.dto;
 
 
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter @Setter
 
 public class CartRequest implements Serializable {
-    @NonNull String cartId;
-    @NonNull String itemId;
+    @NonNull Long cartId;
+    @NonNull Long userId;
+
+    public CartRequest(Long cartId,Long userId)
+    {
+        this.cartId = cartId;
+        this.userId = userId;
+    }
+
 }

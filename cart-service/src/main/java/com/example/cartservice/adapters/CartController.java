@@ -1,10 +1,8 @@
 package com.example.cartservice.adapters;
 
 import com.example.cartservice.business.CartService;
-import com.example.cartservice.dto.AddItemToCartRequest;
-import com.example.cartservice.dto.CartUpdated;
-import com.example.cartservice.dto.DeleteItemFromCartRequest;
-import com.example.cartservice.dto.UpdateItemInCart;
+import com.example.cartservice.business.entites.Cart;
+import com.example.cartservice.dto.*;
 import com.example.cartservice.ports.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,30 +11,41 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/v1", produces = "application/json")
 public class CartController {
 
-    private static final String ENDPOINT = "/cart";
+    private static final String ENDPOINT = "/cart/";
 
     private ICartService cartService;
 
     @Autowired
-    public CartController(ICartService cartService){
+    public CartController(ICartService cartService) {
         this.cartService = cartService;
     }
 
+    @PostMapping (ENDPOINT)
+    public Cart createCart(@RequestBody CartRequest cartRequest)
+    {
+        return cartService.createCart(cartRequest);
+    }
+
     @GetMapping(ENDPOINT)
-    public CartUpdated add(@RequestBody AddItemToCartRequest request){
-        return cartService.addItem(request);
-//        return "Hello from cart service";
+    public Cart addProducts(@RequestBody AddItemToCartRequest cartRequest)
+    {
+        return cartService.addItem(cartRequest);
     }
 
-    @DeleteMapping(ENDPOINT)
-    public CartUpdated delete(@RequestBody DeleteItemFromCartRequest request){
-        return cartService.deleteItem(request);
+    @DeleteMapping (ENDPOINT+"/{cartId}/{userId}/{itemId}/{quantity}")
+    public Cart deleteItem(@PathVariable Long cartId, Long userId, Long itemId, int quantity)
+    {
+        return cartService.deleteItem(new DeleteItemFromCartRequest(cartId,userId,itemId,quantity));
     }
 
-    @PatchMapping(ENDPOINT)
-    public CartUpdated update(@RequestBody UpdateItemInCart request){
-        return cartService.updateItem(request);
+    @GetMapping("/checkout/{cartId}/{userId}")
+    public Cart checkOut(Long cartId,Long userId)
+    {
+        return cartService.checkout(new CheckOutCart(cartId,userId));
     }
+
+
+
 
 
 

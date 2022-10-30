@@ -9,7 +9,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
+
 public class CartServiceApplication {
+
+
     @Autowired
     private EurekaClient eurekaClient;
     public static void main(String[] args) {

@@ -1,13 +1,16 @@
 package com.example.cartservice.ports;
 
-import com.example.cartservice.dto.AddItemToCartRequest;
-import com.example.cartservice.dto.CartUpdated;
-import com.example.cartservice.dto.DeleteItemFromCartRequest;
-import com.example.cartservice.dto.UpdateItemInCart;
+import com.example.cartservice.business.entites.Cart;
+import com.example.cartservice.business.entites.Product;
+import com.example.cartservice.dto.*;
+
+import java.util.zip.CheckedOutputStream;
 
 public interface ICartService {
 
-    CartUpdated addItem(AddItemToCartRequest request);
-    CartUpdated deleteItem(DeleteItemFromCartRequest request);
-    CartUpdated updateItem(UpdateItemInCart request);
+    public Cart createCart(CartRequest cartRequest);
+    Cart addItem(AddItemToCartRequest cartRequest);
+    Cart deleteItem(DeleteItemFromCartRequest request);
+    Cart checkout(CheckOutCart request);
+    Product getProduct(GetItemDetails getItemDetails);
 }
