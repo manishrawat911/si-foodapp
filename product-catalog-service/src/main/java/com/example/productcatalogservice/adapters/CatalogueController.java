@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CatalogueController {
 
-    private static final String ENDPOINT="/catalogue/";
+    private static final String ENDPOINT="/catalogue";
     private final ProductManager productManager;
 
     @Autowired
@@ -27,7 +27,7 @@ public class CatalogueController {
     public List<Product> findAll() {
         return productManager.getProducts();
     }
-    @GetMapping(ENDPOINT+"/{id}")
+    @RequestMapping(value = ENDPOINT+"/{productId}",method = RequestMethod.GET)
     public Product getProduct(@PathVariable Long productId)
     {
         return productManager.getProduct(productId);
@@ -39,7 +39,7 @@ public class CatalogueController {
         return productManager.addProduct(addProductRequest);
     }
 
-    @DeleteMapping(ENDPOINT+"/{id}")
+    @DeleteMapping(ENDPOINT+"{id}")
     public void delete(@RequestBody DeleteProductRequest deleteProductRequest,@PathVariable Long id)
     {
         if (!deleteProductRequest.getProductId().equals(id))

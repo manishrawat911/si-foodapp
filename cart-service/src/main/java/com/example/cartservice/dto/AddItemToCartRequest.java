@@ -1,13 +1,20 @@
 package com.example.cartservice.dto;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Value
-public class AddItemToCartRequest extends CartRequest implements Serializable  {
+@Getter @Setter
+public class AddItemToCartRequest implements Serializable  {
 
-    @NotNull int itemQty;
+    Long cartid;
+    Long userId;
+    Long itemId;
+    int quantity;
 
 }
