@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class InitialGoodiesDatabase {
 
     @Bean
-    CommandLineRunner initDatabase(GoodiesRepository repository) {
+    CommandLineRunner initGoodiesDatabase(GoodiesRepository repository) {
         return args -> {
             log.info("Preloading " + repository.save(new Goodies("Book",Float.valueOf(12))));
             log.info("Preloading " + repository.save(new Goodies("Folder",Float.valueOf(5))));
