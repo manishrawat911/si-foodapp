@@ -6,8 +6,6 @@ import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.List;
 
 
@@ -24,10 +22,6 @@ public class Cart {
 
     @ElementCollection
     List<Long> productIds = new ArrayList<Long>();
-    private @Id @GeneratedValue Long cartId;
-
-   // public Map<Product, Integer> items;
-   // Float value;
 
     CartStatus status;
 
