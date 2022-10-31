@@ -1,23 +1,28 @@
 package com.example.cartservice.business.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @NoArgsConstructor
 @Getter @Setter
 @Entity
+@JsonIgnoreProperties({"productIds"})
 public class Cart {
     @Id
+    @Column(name = "cartId")
     Long cartId;
     private @NonNull Long userId;
     Float totalvalue;
+
+    @ElementCollection
+    List<Long> productIds = new ArrayList<Long>();
+
     CartStatus status;
 
     @OneToMany(mappedBy = "cart")
@@ -39,8 +44,11 @@ public class Cart {
         this.list_product = list_product;
     }
 
+
+
     public void addCartItem(Product product) {
         if (product != null) {
+            productIds.add(product.getProductId());
             list_product.add(product);
         }
     }

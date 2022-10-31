@@ -94,9 +94,15 @@ public class CartService implements ICartService {
 //            cart.setList_product(products);
             cartRepository.save(cart);
         }
+
+        if (product==null)
+        {
+            return null;
+        }
         cartRepository.save(cart);
 
         return cart;
+
 
     }
 
@@ -115,6 +121,7 @@ public class CartService implements ICartService {
                 });
 
         listOfItemToRemove.forEach(cart::removeCartItem);
+        cart.getProductIds().remove(listOfItemToRemove);
         cartRepository.delete(cart);
         calculatePrice(cart);
         carts.put(request.getCartId(),cart);
@@ -132,7 +139,11 @@ public class CartService implements ICartService {
     @Override
     public Cart getCart(GetCartDetails getCartDetails) {
         Cart cart1 = cartRepository.findById(getCartDetails.getCartId()).get();
-        cart1.setList_product(cartItemRepository.findByCartId(cart1.getCartId()));
+        List<Product> productList = new ArrayList<>();
+        for (Long items: cart1.getProductIds()) {
+            productList.add(cartItemRepository.findByProductId(items));
+        }
+        cart1.setList_product(productList);
         logger.info("sizeeee......"+cart1.getList_product().size());
         return cart1;
     }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "Product_Database")
 public class Product {
 
     @Id Long productId;
@@ -20,7 +21,8 @@ public class Product {
     int quantity;
     Long cartId;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "cartId", referencedColumnName = "cartId",updatable = false,insertable = false)
     @JsonBackReference
     private Cart cart;
 
