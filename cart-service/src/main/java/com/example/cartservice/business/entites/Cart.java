@@ -1,11 +1,10 @@
 package com.example.cartservice.business.entites;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +19,14 @@ public class Cart {
     private @NonNull Long userId;
     Float totalvalue;
     CartStatus status;
-    @Transient
-    List<Product> list_product;
-    @NonNull int quantity;
+
+    @OneToMany(mappedBy = "cart")
+    private List<Product> list_product = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "cart")
+//    List<Product> list_product;
+
+    @NonNull int totalQuantity;
 
 
     public Cart(Long cartid, Long userId)

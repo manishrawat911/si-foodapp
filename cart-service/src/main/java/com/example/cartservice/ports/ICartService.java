@@ -12,5 +12,7 @@ public interface ICartService {
     Cart addItem(AddItemToCartRequest cartRequest);
     Cart deleteItem(DeleteItemFromCartRequest request);
     Cart checkout(CheckOutCart request);
+
+    Cart getCart(GetCartDetails getCartDetails);
     Product getProduct(GetItemDetails getItemDetails);
 }

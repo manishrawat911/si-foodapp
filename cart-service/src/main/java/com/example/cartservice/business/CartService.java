@@ -4,6 +4,7 @@ import com.example.cartservice.adapters.ProductValidatorClient;
 import com.example.cartservice.business.entites.Cart;
 import com.example.cartservice.business.entites.Product;
 import com.example.cartservice.dto.*;
+import com.example.cartservice.ports.CartItemRepository;
 import com.example.cartservice.ports.CartRepository;
 import com.example.cartservice.ports.ICartService;
 import com.example.cartservice.ports.IProductValidator;
@@ -20,34 +21,41 @@ import java.util.*;
 public class CartService implements ICartService {
 
     private Map<Long,Cart> carts = new HashMap<>();
-    private Map<Long, Product> products = new HashMap<>();
+    //private Map<Long, Product> products = new HashMap<>();
+
+    private List<Product> products;
 
     Logger logger = LoggerFactory.getLogger(CartService.class);
 
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
     private final ProductValidatorClient productValidatorClient;
     @Autowired
-    public CartService(CartRepository cartRepository,ProductValidatorClient productValidatorClient)
+    public CartService(CartRepository cartRepository,ProductValidatorClient productValidatorClient,CartItemRepository cartItemRepository)
     {
         this.cartRepository = cartRepository;
+        this.cartItemRepository = cartItemRepository;
         this.productValidatorClient = productValidatorClient;
     }
 
     @Override
     public Cart createCart(CartRequest cartRequest) {
-        if (cartRepository.findByCartId(cartRequest.getCartId()) == null)
+        logger.info("Details......"+cartRepository.findById(cartRequest.getCartId()).isEmpty());
+        if (cartRepository.findById(cartRequest.getCartId()).isEmpty())
         {
             Cart cart = new Cart(cartRequest.getCartId(),cartRequest.getUserId());
-            logger.info("It's enter to the cart creation");
-            //carts.put(cartRequest.getCartId(),cart);
+            cart.setStatus(Cart.CartStatus.CREATED);
+            cart.setTotalvalue(Float.valueOf(0));
+            cartRepository.save(cart);
+            products = new ArrayList<>();
             return cart;
         }
-        logger.info("It's not enter to the cart creation");
-        Cart cart = carts.get(cartRequest.getCartId());
+
+        Cart cart = cartRepository.findByCartId(cartRequest.getCartId());
         calculatePrice(cart);
-        carts.put(cartRequest.getCartId(),cart);
+        //carts.put(cartRequest.getCartId(),cart);
         cartRepository.save(cart);
-        return null;
+        return cart;
     }
 
     private void calculatePrice(Cart cart) {
@@ -57,6 +65,7 @@ public class CartService implements ICartService {
             {
                 for (Product product : cart.getList_product())
                 {
+                    logger.info("TOTal Price.."+cart.getTotalvalue());
                     cart.setTotalvalue(cart.getTotalvalue()+product.getPrice()*product.getQuantity());
                 }
             }
@@ -68,23 +77,27 @@ public class CartService implements ICartService {
     @Override
     public Cart addItem(AddItemToCartRequest cartRequest) {
         CartRequest cR = new CartRequest(cartRequest.getCartid(),cartRequest.getUserId());
-        logger.info("Check 0");
         Cart cart = createCart(cR);
-        logger.info("Check 1");
-        GetItemDetails getItemDetails = new GetItemDetails(cartRequest.getItemId());
-        logger.info("Check 2");
-        Product product = getProduct(getItemDetails);
-        logger.info("Check 3");
+        Product product = getProduct(new GetItemDetails(cartRequest.getItemId()));
 
         if (product!=null)
         {
+
             cart.addCartItem(product);
+            cart.setTotalQuantity(cart.getTotalQuantity() + cartRequest.getQuantity());
+            product.setQuantity(cartRequest.getQuantity());
+            product.setCartId(cartRequest.getCartid());
+            cartItemRepository.save(product);
             calculatePrice(cart);
-            cart.setList_product(dedupeCartItems(cart));
+            cart.setStatus(Cart.CartStatus.ADDED);
+//            products.add(product);
+//            cart.setList_product(products);
+            cartRepository.save(cart);
         }
-        //carts.put(cartRequest.getCartid(),cart);
         cartRepository.save(cart);
+
         return cart;
+
     }
 
     @Override
@@ -110,40 +123,22 @@ public class CartService implements ICartService {
 
     @Override
     public Cart checkout(CheckOutCart request) {
-        Cart cart = createCart(new CartRequest(request.getCartId(),request.getUserId()));
-        cart.resetCartItemList();
+        Cart cart = getCart(new GetCartDetails(request.getCartId()));
         calculatePrice(cart);
-        carts.put(request.getCartId(),cart);
+        cart.setStatus(Cart.CartStatus.READYTODELETE);
         return cart;
+    }
+
+    @Override
+    public Cart getCart(GetCartDetails getCartDetails) {
+        Cart cart1 = cartRepository.findById(getCartDetails.getCartId()).get();
+        cart1.setList_product(cartItemRepository.findByCartId(cart1.getCartId()));
+        logger.info("sizeeee......"+cart1.getList_product().size());
+        return cart1;
     }
 
     @Override
     public Product getProduct(GetItemDetails getItemDetails) {
         return productValidatorClient.getProduct(getItemDetails.getProductId());
-    }
-
-    private List<Product> dedupeCartItems(Cart sc) {
-        List<Product> result = new ArrayList<>();
-        Map<Long, Integer> quantityMap = new HashMap<>();
-        for (Product sci : sc.getList_product()) {
-            if (quantityMap.containsKey(sci.getProductId())) {
-                quantityMap.put(sci.getProductId(), quantityMap.get(sci.getProductId()) + sci.getQuantity());
-            } else {
-                quantityMap.put(sci.getProductId(), sci.getQuantity());
-            }
-        }
-
-        for (Long itemId : quantityMap.keySet()) {
-            Product p = getProduct(new GetItemDetails(itemId));
-            Product newItem = new Product();
-            newItem.setQuantity(quantityMap.get(itemId));
-            newItem.setPrice(p.getPrice());
-            newItem.setProviderId(p.getProviderId());
-            newItem.setProductName(p.getProductName());
-            newItem.setProductId(p.getProductId());
-            result.add(newItem);
-        }
-
-        return result;
     }
 }

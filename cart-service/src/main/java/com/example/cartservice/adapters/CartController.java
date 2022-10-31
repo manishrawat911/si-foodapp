@@ -32,13 +32,19 @@ public class CartController {
         return cartService.addItem(cartRequest);
     }
 
-    @DeleteMapping (ENDPOINT+"/{cartId}/{userId}/{itemId}/{quantity}")
+    @DeleteMapping (ENDPOINT+"{cartId}/{userId}/{itemId}/{quantity}")
     public Cart deleteItem(@PathVariable Long cartId, Long userId, Long itemId, int quantity)
     {
         return cartService.deleteItem(new DeleteItemFromCartRequest(cartId,userId,itemId,quantity));
     }
 
-    @GetMapping("/checkout/{cartId}/{userId}")
+    @GetMapping(ENDPOINT+"{cartId}")
+    public Cart getCart(@PathVariable Long cartId)
+    {
+        return cartService.getCart(new GetCartDetails(cartId));
+    }
+
+    @GetMapping("checkout/{cartId}/{userId}")
     public Cart checkOut(Long cartId,Long userId)
     {
         return cartService.checkout(new CheckOutCart(cartId,userId));
