@@ -50,16 +50,4 @@ public class CartController {
         return cartService.checkout(new CheckOutCart(cartId,userId));
     }
 
-
-
-
-
-
-    //add items to a user's cart
-
-    //remove items from a user's cart
-
-    //update items from a users' cart
-
-    // get a cart for user
 }

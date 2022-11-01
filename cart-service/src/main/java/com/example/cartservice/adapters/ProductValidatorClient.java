@@ -35,15 +35,12 @@ public class ProductValidatorClient implements IProductValidator {
     @Override
     public Product getProduct(Long id) {
         WebClient webClient = buildClient();
-        logger.info("Validator 1");
         Product product = webClient.get().uri(ENDPOINT+"/"+id).retrieve().bodyToMono(Product.class).block();
-        logger.info("Validator 2");
         return  product;
     }
 
     private WebClient buildClient() {
         String url = locateExternalService();
-        logger.info("abc 2");
         return WebClient.builder()
                 .baseUrl(url)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
