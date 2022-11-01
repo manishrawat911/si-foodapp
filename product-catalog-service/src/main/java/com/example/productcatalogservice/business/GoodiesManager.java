@@ -3,7 +3,6 @@ package com.example.productcatalogservice.business;
 import com.example.productcatalogservice.business.entites.Goodies;
 import com.example.productcatalogservice.dto.AddGoodiesRequest;
 import com.example.productcatalogservice.dto.DeleteGoodiesRequest;
-import com.example.productcatalogservice.ports.CatalogueRepository;
 import com.example.productcatalogservice.ports.GoodiesRepository;
 import com.example.productcatalogservice.ports.IGoodiesService;
 import org.springframework.beans.factory.annotation.Autowired;

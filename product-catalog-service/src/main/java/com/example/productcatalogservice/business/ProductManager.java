@@ -5,13 +5,10 @@ import com.example.productcatalogservice.dto.AddProductRequest;
 import com.example.productcatalogservice.dto.DeleteProductRequest;
 import com.example.productcatalogservice.ports.CatalogueRepository;
 import com.example.productcatalogservice.ports.IProductService;
-import com.example.productcatalogservice.dto.GetProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ProductManager implements IProductService {
@@ -49,17 +46,11 @@ public class ProductManager implements IProductService {
 
     public void removeProduct(DeleteProductRequest deleteProductRequest)
     {
-//        if (Objects.isNull(deleteProductRequest.getProviderId()))
-//        {
+
             Product product = catalogueRepository.findByProductId(deleteProductRequest.getProductId());
             catalogueRepository.delete(product);
-//        }
-//        else {
-//            Product product = catalogueRepository.findByProviderId(deleteProductRequest.getProductId(),deleteProductRequest.getProviderId());
-//            catalogueRepository.delete(product);
-//        }
+
 
     }
 
-//    public void addProduct()
 }

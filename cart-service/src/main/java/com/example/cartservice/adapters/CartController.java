@@ -1,6 +1,5 @@
 package com.example.cartservice.adapters;
 
-import com.example.cartservice.business.CartService;
 import com.example.cartservice.business.entites.Cart;
 import com.example.cartservice.dto.*;
 import com.example.cartservice.ports.ICartService;

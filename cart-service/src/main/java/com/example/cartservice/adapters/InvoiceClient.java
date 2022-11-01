@@ -1,25 +1,17 @@
 package com.example.cartservice.adapters;
 
-import com.example.cartservice.business.CartService;
 import com.example.cartservice.business.entites.Cart;
-import com.example.cartservice.business.entites.Product;
-import com.example.cartservice.dto.GetItemDetails;
 import com.example.cartservice.dto.InvoiceResponse;
 import com.example.cartservice.ports.IInvoiceService;
-import com.example.cartservice.ports.IProductValidator;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import java.util.Objects;
 import java.util.Random;
 

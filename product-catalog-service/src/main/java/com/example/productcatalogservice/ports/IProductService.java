@@ -14,5 +14,4 @@ public interface IProductService {
     List<Product> getProducts();
     Product addProduct(AddProductRequest addProductRequest);
     void removeProduct(DeleteProductRequest deleteProductRequest);
-//    Product getProduct();
 }
