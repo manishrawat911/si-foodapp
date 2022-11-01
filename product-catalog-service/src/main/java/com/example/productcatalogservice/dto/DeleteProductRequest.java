@@ -6,6 +6,6 @@ import lombok.Value;
 
 @Value
 public class DeleteProductRequest {
-    @NonNull Long productId;
-    @NonNull Provider providerId;
+    Long productId;
+    Provider providerId;
 }

@@ -9,6 +9,6 @@ import lombok.Value;
 @Getter @Setter
 
 public class CheckOutCart {
-    Long cartId;
-    Long userId;
+    @NonNull Long cartId;
+    @NonNull Long userId;
 }

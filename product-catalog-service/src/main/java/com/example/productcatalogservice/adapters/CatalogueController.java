@@ -5,6 +5,8 @@ import com.example.productcatalogservice.business.entites.Product;
 import com.example.productcatalogservice.dto.AddProductRequest;
 import com.example.productcatalogservice.dto.DeleteProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,14 +41,16 @@ public class CatalogueController {
         return productManager.addProduct(addProductRequest);
     }
 
-    @DeleteMapping(ENDPOINT+"{id}")
-    public void delete(@RequestBody DeleteProductRequest deleteProductRequest,@PathVariable Long id)
+    @DeleteMapping(ENDPOINT)
+    public ResponseEntity<Product> delete(@RequestBody DeleteProductRequest deleteProductRequest)
     {
-        if (!deleteProductRequest.getProductId().equals(id))
+        if (!productManager.getProducts().contains(productManager.getProduct(deleteProductRequest.getProductId())))
         {
-            throw new IllegalArgumentException("Wrong Identity Number");
+            //throw new IllegalArgumentException("Wrong Identity Number");
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         productManager.removeProduct(deleteProductRequest);
+        return new ResponseEntity<Product>(HttpStatus.OK);
     }
 
 }
