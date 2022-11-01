@@ -18,7 +18,6 @@ import java.util.*;
 public class CartService implements ICartService {
 
     private Map<Long,Cart> carts = new HashMap<>();
-    //private Map<Long, Product> products = new HashMap<>();
 
     private List<Product> products;
 
@@ -37,7 +36,6 @@ public class CartService implements ICartService {
 
     @Override
     public Cart createCart(CartRequest cartRequest) {
-        logger.info("Details......"+cartRepository.findById(cartRequest.getCartId()).isEmpty());
         if (cartRepository.findById(cartRequest.getCartId()).isEmpty())
         {
             Cart cart = new Cart(cartRequest.getCartId(),cartRequest.getUserId());
@@ -50,7 +48,6 @@ public class CartService implements ICartService {
 
         Cart cart = cartRepository.findByCartId(cartRequest.getCartId());
         calculatePrice(cart);
-        //carts.put(cartRequest.getCartId(),cart);
         cartRepository.save(cart);
         return cart;
     }

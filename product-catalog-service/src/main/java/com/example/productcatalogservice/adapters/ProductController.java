@@ -14,13 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1", produces = "application/json")
 
-public class CatalogueController {
+public class ProductController {
 
     private static final String ENDPOINT="/catalogue";
     private final ProductManager productManager;
 
     @Autowired
-    public CatalogueController(ProductManager productManager)
+    public ProductController(ProductManager productManager)
     {
         this.productManager = productManager;
     }
@@ -52,5 +52,6 @@ public class CatalogueController {
         productManager.removeProduct(deleteProductRequest);
         return new ResponseEntity<Product>(HttpStatus.OK);
     }
+
 
 }
