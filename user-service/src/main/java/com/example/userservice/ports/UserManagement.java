@@ -6,7 +6,7 @@ import com.example.userservice.dto.DeleteUserRequest;
 
 import java.util.List;
 
-public interface IUserService {
+public interface UserManagement {
     User getUser(Long request);
     List<User> getUsers();
     User addUser(AddUserRequest addUserRequest);

@@ -1,9 +1,9 @@
 package com.example.userservice.adapters;
 
-import com.example.userservice.business.UserManager;
 import com.example.userservice.business.entities.User;
 import com.example.userservice.dto.AddUserRequest;
 import com.example.userservice.dto.DeleteUserRequest;
+import com.example.userservice.ports.UserManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class UserController {
     private static final String ENDPOINT="/user/";
-    private final UserManager userManager;
+    private final UserManagement userManager;
     @Autowired
-    public UserController(UserManager userManager)
+    public UserController(UserManagement userManager)
     {
         this.userManager = userManager;
     }
