@@ -2,6 +2,7 @@ package com.example.orderservice.business.adapters;
 
 import com.example.orderservice.business.entities.Order;
 import com.example.orderservice.dto.CreateOrderCommand;
+import com.example.orderservice.dto.CreateOrderResponse;
 import com.example.orderservice.dto.UpdateOrderStatusCommand;
 import com.example.orderservice.ports.OrderManagement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class OrderController {
     }
 
     @PostMapping(ORDERS_ENDPOINT)
-    public void createOrder(@RequestBody CreateOrderCommand command){
-        orderManagementService.createOrder(command);
+    public CreateOrderResponse createOrder(@RequestBody CreateOrderCommand command){
+        return orderManagementService.createOrder(command);
     }
 
     @PatchMapping(ORDERS_ENDPOINT)

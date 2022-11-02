@@ -2,6 +2,7 @@ package com.example.orderservice.ports;
 
 import com.example.orderservice.business.entities.Order;
 import com.example.orderservice.dto.CreateOrderCommand;
+import com.example.orderservice.dto.CreateOrderResponse;
 import com.example.orderservice.dto.UpdateOrderStatusCommand;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface OrderManagement {
 
 //    Write or Create Operations
-    void createOrder(CreateOrderCommand command);
+    CreateOrderResponse createOrder(CreateOrderCommand command);
 
     //Reads
     List<Order> getAllOrders();

@@ -3,6 +3,7 @@ package com.example.orderservice.business;
 import com.example.orderservice.business.entities.Order;
 import com.example.orderservice.business.entities.OrderRepository;
 import com.example.orderservice.dto.CreateOrderCommand;
+import com.example.orderservice.dto.CreateOrderResponse;
 import com.example.orderservice.dto.UpdateOrderStatusCommand;
 import com.example.orderservice.ports.IOrderRepository;
 import com.example.orderservice.ports.OrderManagement;
@@ -23,12 +24,22 @@ public class OrderManager implements OrderManagement {
 
 
     @Override
-    public void createOrder(CreateOrderCommand command) {
-        Order newOrder =  new Order();
-        newOrder.setInvoiceId(command.getInvoiceId());
-        newOrder.setCartId(command.getCartId());
-        newOrder.setStatus("RECEIVED");
-        orderRepository.save(newOrder);
+    public CreateOrderResponse createOrder(CreateOrderCommand command) {
+        CreateOrderResponse response = new CreateOrderResponse();
+        try{
+            Order newOrder = new Order();
+            newOrder.setInvoiceId(command.getInvoiceId());
+            newOrder.setCartId(command.getCartId());
+            newOrder.setStatus("RECEIVED");
+            Order o = orderRepository.save(newOrder);
+            response.setOrderId(o.getOrderId());
+            response.setStatus("RECEIVED");
+
+        }
+        catch (Exception ex){
+            response.setStatus("ERROR");
+        }
+        return response;
     }
 
     @Override
