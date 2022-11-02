@@ -1,18 +1,15 @@
 package com.example.cartservice.business;
 
-import com.example.cartservice.adapters.ProductValidatorClient;
+import com.example.cartservice.adapters.ProductClient;
 import com.example.cartservice.business.entites.Cart;
 import com.example.cartservice.business.entites.Product;
 import com.example.cartservice.dto.*;
 import com.example.cartservice.ports.CartItemRepository;
 import com.example.cartservice.ports.CartRepository;
 import com.example.cartservice.ports.ICartService;
-import com.example.cartservice.ports.IProductValidator;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,7 +18,6 @@ import java.util.*;
 public class CartService implements ICartService {
 
     private Map<Long,Cart> carts = new HashMap<>();
-    //private Map<Long, Product> products = new HashMap<>();
 
     private List<Product> products;
 
@@ -29,18 +25,17 @@ public class CartService implements ICartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final ProductValidatorClient productValidatorClient;
+    private final ProductClient productClient;
     @Autowired
-    public CartService(CartRepository cartRepository,ProductValidatorClient productValidatorClient,CartItemRepository cartItemRepository)
+    public CartService(CartRepository cartRepository, ProductClient productClient, CartItemRepository cartItemRepository)
     {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
-        this.productValidatorClient = productValidatorClient;
+        this.productClient = productClient;
     }
 
     @Override
     public Cart createCart(CartRequest cartRequest) {
-        logger.info("Details......"+cartRepository.findById(cartRequest.getCartId()).isEmpty());
         if (cartRepository.findById(cartRequest.getCartId()).isEmpty())
         {
             Cart cart = new Cart(cartRequest.getCartId(),cartRequest.getUserId());
@@ -53,7 +48,6 @@ public class CartService implements ICartService {
 
         Cart cart = cartRepository.findByCartId(cartRequest.getCartId());
         calculatePrice(cart);
-        //carts.put(cartRequest.getCartId(),cart);
         cartRepository.save(cart);
         return cart;
     }
@@ -150,6 +144,6 @@ public class CartService implements ICartService {
 
     @Override
     public Product getProduct(GetItemDetails getItemDetails) {
-        return productValidatorClient.getProduct(getItemDetails.getProductId());
+        return productClient.getProduct(getItemDetails.getProductId());
     }
 }

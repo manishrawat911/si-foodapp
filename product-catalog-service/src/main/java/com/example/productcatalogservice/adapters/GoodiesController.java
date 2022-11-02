@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(value = "/v1", produces = "application/json")
 public class GoodiesController {
 
-    private static final String ENDPOINT="/catalogue/goodies/";
+    private static final String ENDPOINT_GOODIES="/catalogue/goodies/";
     private final GoodiesManager goodiesManager;
 
     @Autowired
@@ -22,24 +22,24 @@ public class GoodiesController {
         this.goodiesManager = goodiesManager;
     }
 
-    @GetMapping(ENDPOINT)
+    @GetMapping(ENDPOINT_GOODIES)
     public List<Goodies> findAll() {
         return goodiesManager.getGoodies();
     }
 
-    @GetMapping(ENDPOINT+"/{id}")
+    @GetMapping(ENDPOINT_GOODIES+"/{id}")
     public Goodies getGoodies(@PathVariable Long goodieId)
     {
         return goodiesManager.getGoodies(goodieId);
     }
 
-    @PostMapping(ENDPOINT)
+    @PostMapping(ENDPOINT_GOODIES)
     public Goodies add(@RequestBody AddGoodiesRequest addGoodiesRequest)
     {
         return goodiesManager.addGoodies(addGoodiesRequest);
     }
 
-    @DeleteMapping(ENDPOINT+"/{id}")
+    @DeleteMapping(ENDPOINT_GOODIES+"/{id}")
     public void delete(@RequestBody DeleteGoodiesRequest deleteGoodiesRequest, @PathVariable Long id)
     {
         if (!deleteGoodiesRequest.getGoodiesId().equals(id))

@@ -1,6 +1,5 @@
 package com.example.cartservice.adapters;
 
-import com.example.cartservice.business.CartService;
 import com.example.cartservice.business.entites.Cart;
 import com.example.cartservice.dto.*;
 import com.example.cartservice.ports.ICartService;
@@ -50,16 +49,4 @@ public class CartController {
         return cartService.checkout(new CheckOutCart(cartId,userId));
     }
 
-
-
-
-
-
-    //add items to a user's cart
-
-    //remove items from a user's cart
-
-    //update items from a users' cart
-
-    // get a cart for user
 }

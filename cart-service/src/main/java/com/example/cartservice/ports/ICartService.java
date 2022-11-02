@@ -4,8 +4,6 @@ import com.example.cartservice.business.entites.Cart;
 import com.example.cartservice.business.entites.Product;
 import com.example.cartservice.dto.*;
 
-import java.util.zip.CheckedOutputStream;
-
 public interface ICartService {
 
     public Cart createCart(CartRequest cartRequest);
